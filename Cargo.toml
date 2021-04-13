@@ -1,9 +1,12 @@
 [package]
-name = "aes_drbg"
-version = "0.1.0"
+name = "aes_ctr_drbg"
+version = "0.0.1"
 authors = ["Kris Kwiatkowski <contact@amongbytes.com>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "Implementation of CTR DRBG based on AES-256."
+license = "MIT"
+repository = "https://github.com/henrydcase/aes_ctr_drbg"
 
 [dependencies]
+hex = "0.4.2"
+rust-crypto = "^0.2"
