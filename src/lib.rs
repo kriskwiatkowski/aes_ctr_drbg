@@ -1,3 +1,5 @@
+#![no_std]
+
 use crypto::aes;
 use crypto::buffer::{ RefReadBuffer, RefWriteBuffer, BufferResult };
 
@@ -44,7 +46,7 @@ impl DrbgCtx {
     }
 
     fn update(&mut self, seed: &[u8]) {
-        let mut t = vec![0;48];
+        let mut t: [u8;48] = [0;48];
 
         for i in 0..3 {
             self.inc();
@@ -61,8 +63,8 @@ impl DrbgCtx {
         }
     }
 
-    pub fn init(&mut self, entropy: &[u8], diversifier: Vec<u8>) {
-        let mut m = vec![0;48];
+    pub fn init(&mut self, entropy: &[u8], diversifier: &[u8]) {
+        let mut m: [u8;48] = [0;48];
         for i in 0..48 {
             m[i] = entropy[i];
         }
@@ -79,7 +81,7 @@ impl DrbgCtx {
 
     pub fn get_random(&mut self, data: &mut [u8]) {
         let mut i = 0;
-        let mut b = vec![0; 16];
+        let mut b: [u8; 16] = [0;16];
         let mut l = data.len();
 
         while l > 0 {
@@ -100,7 +102,9 @@ impl DrbgCtx {
             }
         }
 
-        self.update(Vec::new().as_slice());
+        // Probably should be an option.
+        let empty_seed: [u8;0] = [];
+        self.update(&empty_seed);
         self.reseed_counter = self.reseed_counter+1;
     }
 }
